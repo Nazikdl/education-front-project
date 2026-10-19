@@ -14,6 +14,7 @@ import Category from "../Pages/Category";
 import About from "../Pages/About";
 import Instructors from "../Pages/Instructors";
 import NotFound from "../Pages/NotFound";
+import FreeCourse from "../Pages/FreeCourse";
 
 const router = createBrowserRouter([
   {
@@ -64,6 +65,10 @@ const router = createBrowserRouter([
       {
         path: "/instructors/:id/:name",
         element: <Instructors />,
+      },
+       {
+        path: "/free-course/:id/:name",
+        element: <FreeCourse />,
       },
       {
         path: "/*",
