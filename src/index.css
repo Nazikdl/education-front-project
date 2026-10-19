@@ -57,9 +57,9 @@
   --color-pink-custom: #fb00ff;
 
   /* Fonts */
-  --font-vazir: "VazirmatnREG", "Yekan", sans-serif;
-  --font-vazir-bold: "VazirmatnBOLD", "Yekan", sans-serif;
-
+  --font-vazir: "VazirmatnREG";
+  --font-vazir-bold: "VazirmatnBOLD";
+--font-yekan:"Yekan";
   /* Radius */
   --radius-sm: 8px;
   --radius-md: 16px;
@@ -123,7 +123,6 @@ html,
    BODY
    ============================================================ */
 body {
-  font-family: "VazirmatnREG", "Yekan", "DMSans", "Roboto", system-ui, sans-serif;
   color: var(--text-primary);
   direction: rtl;
   background-color: rgb(8, 15, 66);
