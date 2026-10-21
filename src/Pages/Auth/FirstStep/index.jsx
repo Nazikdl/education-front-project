@@ -29,18 +29,18 @@ export default function FirstStep({ phoneNumber, changePage, changePhone }) {
     });
     notify(result.success ? "success" : "error", result.message);
     if (result.success) {
-      changePage(result.data.passwordExist ? "password" : "otp");
+      changePage(result?.data?.passwordExist ? "password" : "otp");
     }
     setLoading(false);
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
-      <div className="absolute w-[400px] h-[400px] rounded-full blur-[120px] bg-pink-custom/20 -top-24 -right-24 animate-float" />
-      <div className="absolute w-[350px] h-[350px] rounded-full blur-[120px] bg-purple-custom/25 -bottom-24 -left-24 animate-float" />
+    <div className="min-h-screen flex items-center justify-center p-3 sm:p-4 relative overflow-hidden">
+      <div className="absolute w-[300px] sm:w-[400px] h-[300px] sm:h-[400px] rounded-full blur-[120px] bg-pink-custom/20 -top-24 -right-24 animate-float" />
+      <div className="absolute w-[250px] sm:w-[350px] h-[250px] sm:h-[350px] rounded-full blur-[120px] bg-purple-custom/25 -bottom-24 -left-24 animate-float" />
 
       <motion.div
-        className="card w-full max-w-[440px] flex flex-col items-center gap-6"
+        className="card w-full max-w-[340px] sm:max-w-[440px] flex flex-col items-center gap-4 sm:gap-6"
         initial={{ opacity: 0, scale: 0.7, y: 40 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{
@@ -52,12 +52,13 @@ export default function FirstStep({ phoneNumber, changePage, changePhone }) {
         }}
       >
         <motion.div
-          className="w-16 h-16 rounded-full bg-gold/10 border-[1.5px] border-gold/35 flex items-center justify-center animate-glow"
+          className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gold/10 border-[1.5px] border-gold/35 flex items-center justify-center animate-glow"
           initial={{ scale: 0, rotate: -180 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
         >
-          <UserRoundPen size={28} color="#ffc107" />
+          <UserRoundPen size={20} className="sm:hidden" color="#ffc107" />
+          <UserRoundPen size={28} className="hidden sm:block" color="#ffc107" />
         </motion.div>
 
         <motion.div
@@ -66,7 +67,10 @@ export default function FirstStep({ phoneNumber, changePage, changePhone }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.45 }}
         >
-          <Text strong className="!text-2xl !mb-5 !font-vazir-bold !text-white">
+          <Text
+            strong
+            className="!text-lg sm:!text-2xl !mb-3 sm:!mb-5 !font-vazir-bold !text-white"
+          >
             ورود به حساب کاربری
           </Text>
         </motion.div>
@@ -82,15 +86,26 @@ export default function FirstStep({ phoneNumber, changePage, changePhone }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
           >
-            <div className="!mb-8">
+            <div className="!mb-6 sm:!mb-8">
               <Input
-                className="!px-4"
+                className="!px-3 sm:!px-4 !text-xs sm:!text-base"
                 size="large"
                 placeholder="لطفا شماره همراه خود را وارد کنید"
                 value={toPersianNumber(phoneNumber)}
                 onChange={handlePhoneChange}
-                prefix={<Phone size={18} className="text-gold !ml-1.5 !mb-1.5" />}
                 maxLength={11}
+                prefix={
+                  <>
+                    <Phone
+                      size={16}
+                      className="sm:hidden text-gold !ml-1.5 !mb-1.5"
+                    />
+                    <Phone
+                      size={18}
+                      className="hidden sm:block text-gold !ml-1.5 !mb-1.5"
+                    />
+                  </>
+                }
               />
             </div>
           </motion.div>
@@ -108,7 +123,7 @@ export default function FirstStep({ phoneNumber, changePage, changePhone }) {
                 htmlType="submit"
                 loading={loading}
                 icon={loading ? <SyncOutlined spin /> : null}
-                className="!h-[52px] !rounded-2xl w-full !font-vazir-bold !text-base"
+                className="!h-[46px] sm:!h-[52px] !rounded-xl sm:!rounded-2xl w-full !font-vazir-bold !text-sm sm:!text-base"
                 block
               >
                 {loading ? "در حال بررسی..." : "ورود یا ثبت‌نام"}
@@ -118,7 +133,7 @@ export default function FirstStep({ phoneNumber, changePage, changePhone }) {
         </Form>
 
         <motion.div
-          className="text-xs text-white/50 text-center !pt-4 border-t border-white/10 w-full font-vazir"
+          className="text-[10px] sm:text-xs text-white/50 text-center !pt-3 sm:!pt-4 border-t border-white/10 w-full font-vazir"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.9 }}

@@ -69,14 +69,14 @@ export default function LoginOtp({ phoneNumber, changePage }) {
     }
     setLoading(false);
   };
-  
-  return (
-    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
-      <div className="absolute w-[400px] h-[400px] rounded-full blur-[120px] bg-pink-custom/20 -top-24 -right-24 animate-float" />
-      <div className="absolute w-[350px] h-[350px] rounded-full blur-[120px] bg-purple-custom/25 -bottom-24 -left-24 animate-float" />
 
-     <motion.div
-        className="card w-full max-w-[440px] flex flex-col items-center gap-6"
+  return (
+   <div className="min-h-screen flex items-center justify-center p-3 sm:p-4 relative overflow-hidden">
+        <div className="absolute w-[300px] sm:w-[400px] h-[300px] sm:h-[400px] rounded-full blur-[120px] bg-pink-custom/20 -top-24 -right-24 animate-float" />
+        <div className="absolute w-[250px] sm:w-[350px] h-[250px] sm:h-[350px] rounded-full blur-[120px] bg-purple-custom/25 -bottom-24 -left-24 animate-float" />
+  
+        <motion.div
+          className="card w-full max-w-[340px] sm:max-w-[440px] flex flex-col items-center gap-4 sm:gap-6"
         initial={{ opacity: 0, scale: 0.7, y: 40 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{
@@ -87,22 +87,24 @@ export default function LoginOtp({ phoneNumber, changePage }) {
           damping: 15,
         }}
       >
-         <span
-    onClick={() => changePage("first")}
-    className="absolute top-8 left-8 text-white/60 hover:text-gold cursor-pointer flex items-center gap-1 text-sm transition-colors z-10"
-  >
-    
-    بازگشت
-    <ChevronLeft size={16} />
-  </span>
+        <span
+          onClick={() => changePage("first")}
+          className="absolute top-6 sm:top-8 left-6 sm:left-8 text-white/60 hover:text-gold cursor-pointer flex items-center gap-1 text-xs sm:text-sm transition-colors z-10"
+        >
+          بازگشت
+          <ChevronLeft size={14} className="sm:hidden" />
+          <ChevronLeft size={16} className="hidden sm:block" />
+        </span>
         {/* آیکون */}
         <motion.div
-          className="w-16 h-16 !my-3 rounded-full bg-gold/10 border-[1.5px] border-gold/35 flex items-center justify-center animate-glow"
+          className="w-12 h-12 sm:w-16 sm:h-16 !my-0 sm:!my-1 rounded-full bg-gold/10 border-[1.5px] border-gold/35 flex items-center justify-center animate-glow"
           initial={{ scale: 0, rotate: -180 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
-        > <UserKeyIcon size={28} color="#ffc107" />
-         </motion.div>   
+        >
+          <UserKeyIcon size={20} className="sm:hidden" color="#ffc107" />
+          <UserKeyIcon size={28} className="hidden sm:block" color="#ffc107" />
+        </motion.div>
 
         {/* عنوان */}
         <motion.div
@@ -111,7 +113,10 @@ export default function LoginOtp({ phoneNumber, changePage }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.45 }}
         >
-          <Text strong className="!text-2xl !mb-5 !font-vazir-bold !text-white">
+          <Text
+            strong
+            className="!text-lg sm:!text-2xl !mb-3 sm:!mb-5 !font-vazir-bold !text-white"
+          >
             ورود با کد یکبار مصرف
           </Text>
         </motion.div>
@@ -131,22 +136,31 @@ export default function LoginOtp({ phoneNumber, changePage }) {
             <div className="!mb-1">
               <Input
                 readOnly
-                className="!px-4"
+                className="!px-3 sm:!px-4 !text-xs sm:!text-base"
                 size="large"
                 value={toPersianNumber(phoneNumber)}
-                prefix={
-                  <Phone size={18} className="text-gold !ml-1.5 !mb-1.5" />
-                }
                 maxLength={11}
+                prefix={
+                  <>
+                    <Phone
+                      size={16}
+                      className="sm:hidden text-gold !ml-1.5 !mb-1.5"
+                    />
+                    <Phone
+                      size={18}
+                      className="hidden sm:block text-gold !ml-1.5 !mb-1.5"
+                    />
+                  </>
+                }
               />
             </div>
 
             {/* کد + ارسال مجدد */}
-            <div className="flex items-center gap-2 !mb-8">
+            <div className="flex items-center gap-2 !mb-6 sm:!mb-8">
               <Button
                 disabled={resendTime > 0}
                 onClick={resendCode}
-                className="!h-[40px] !mb-0.5 !text-xs !rounded-lg !font-vazir-bold !bg-white/5 !text-white !border !border-white/15 hover:!border-gold hover:!text-gold"
+                className="!h-[36px] sm:!h-[40px] !mb-0.5 !text-[10px] sm:!text-xs !rounded-lg !font-vazir-bold !bg-white/5 !text-white !border !border-white/15 hover:!border-gold hover:!text-gold"
               >
                 {resendTime > 0 ? formatTime() : "ارسال مجدد کد"}
               </Button>
@@ -157,16 +171,22 @@ export default function LoginOtp({ phoneNumber, changePage }) {
               >
                 <Input
                   autoComplete="one-time-code"
-                  className="!px-4"
+                  className="!px-3 sm:!px-4 !text-xs sm:!text-base"
                   size="large"
                   placeholder="لطفا کد ارسالی را وارد کنید"
                   value={toPersianNumber(code)}
                   onChange={handleCodeChange}
                   prefix={
-                    <MessageCircleMoreIcon
-                      size={18}
-                      className="text-gold !ml-1.5 !mb-1.5"
-                    />
+                    <>
+                      <MessageCircleMoreIcon
+                        size={16}
+                        className="sm:hidden text-gold !ml-1.5 !mb-1.5"
+                      />
+                      <MessageCircleMoreIcon
+                        size={18}
+                        className="hidden sm:block text-gold !ml-1.5 !mb-1.5"
+                      />
+                    </>
                   }
                 />
               </Form.Item>
@@ -187,7 +207,7 @@ export default function LoginOtp({ phoneNumber, changePage }) {
                 htmlType="submit"
                 loading={loading}
                 icon={loading ? <SyncOutlined spin /> : null}
-                className="!h-[52px] !rounded-2xl w-full !font-vazir-bold !text-base"
+                className="!h-[46px] sm:!h-[52px] !rounded-xl sm:!rounded-2xl w-full !font-vazir-bold !text-sm sm:!text-base"
                 block
               >
                 {loading ? "در حال بررسی..." : "ورود به حساب کاربری"}
@@ -198,7 +218,7 @@ export default function LoginOtp({ phoneNumber, changePage }) {
 
         {/* Footer */}
         <motion.div
-          className="text-xs text-white/50 text-center !pt-4 border-t border-white/10 w-full font-vazir flex items-center justify-center"
+          className="text-[10px] sm:text-xs text-white/50 text-center !pt-3 sm:!pt-4 border-t border-white/10 w-full font-vazir flex items-center justify-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.9 }}
@@ -208,9 +228,9 @@ export default function LoginOtp({ phoneNumber, changePage }) {
             className="group flex flex-1 cursor-pointer justify-center  items-center gap-1.5  py-1 rounded-xl text-xs text-white/60 hover:text-gold font-vazir transition-all"
           >
             <KeyRoundIcon
-                  size={14}
-                  className="transition-transform group-hover:scale-110"
-                />
+              size={14}
+              className="transition-transform group-hover:scale-110"
+            />
             ورود با رمز کاربری
           </span>
         </motion.div>

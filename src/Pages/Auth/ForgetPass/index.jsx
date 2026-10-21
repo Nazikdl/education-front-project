@@ -12,10 +12,7 @@ import {
   ChevronLeft,
 } from "lucide-react";
 import { SyncOutlined } from "@ant-design/icons";
-import {
-  toPersianNumber,
-  toEnglishNumber,
-} from "../../../Utils/FormatNumber";
+import { toPersianNumber, toEnglishNumber } from "../../../Utils/FormatNumber";
 
 export default function ForgetPass({ changePhone, changePage }) {
   const [resendTime, setResendTime] = useState(0);
@@ -23,7 +20,7 @@ export default function ForgetPass({ changePhone, changePage }) {
   const [code, setCode] = useState("");
   const { Text } = Typography;
   const [form] = Form.useForm();
-  const [fields, handleChange] = useFormFields({
+  const [fields, handleChange, setFields] = useFormFields({
     phoneNumber: "",
     newPassword: "",
     confirmPassword: "",
@@ -44,7 +41,15 @@ export default function ForgetPass({ changePhone, changePage }) {
   const handlePhoneChange = (e) => {
     const value = e.target.value;
     const englishValue = toEnglishNumber(value);
-    handleChange({ target: { name: "phoneNumber", value: englishValue } });
+    setFields((prev) => ({ ...prev, phoneNumber: englishValue }));
+  };
+
+  const handleNewPasswordChange = (e) => {
+    setFields((prev) => ({ ...prev, newPassword: e.target.value }));
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    setFields((prev) => ({ ...prev, confirmPassword: e.target.value }));
   };
 
   const handleCodeChange = (e) => {
@@ -73,7 +78,11 @@ export default function ForgetPass({ changePhone, changePage }) {
     const result = await fetchData("auth/forget-password", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ fields, code }),
+      body: JSON.stringify({
+        phoneNumber: fields.phoneNumber,
+        newPassword: fields.newPassword,
+        code,
+      }),
     });
     notify(result.success ? "success" : "error", result.message);
     if (result.success) {
@@ -84,11 +93,12 @@ export default function ForgetPass({ changePhone, changePage }) {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
-      <div className="absolute w-[400px] h-[400px] rounded-full blur-[120px] bg-pink-custom/20 -top-24 -right-24 animate-float" />
-      <div className="absolute w-[350px] h-[350px] rounded-full blur-[120px] bg-purple-custom/25 -bottom-24 -left-24 animate-float" />
-<motion.div
-        className="card w-full max-w-[440px] flex flex-col items-center gap-6"
+  <div className="min-h-screen flex items-center justify-center  !p-3 sm:p-4 relative overflow-hidden">
+       <div className="absolute w-[300px] sm:w-[400px] h-[300px] sm:h-[400px] rounded-full blur-[120px] bg-pink-custom/20 -top-24 -right-24 animate-float" />
+       <div className="absolute w-[250px] sm:w-[350px] h-[250px] sm:h-[350px] rounded-full blur-[120px] bg-purple-custom/25 -bottom-24 -left-24 animate-float" />
+ 
+       <motion.div
+         className="card w-full max-w-[340px] sm:max-w-[440px] !mt-8 md:!mt-5 flex flex-col items-center gap-4 sm:gap-6"
         initial={{ opacity: 0, scale: 0.7, y: 40 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{
@@ -99,23 +109,24 @@ export default function ForgetPass({ changePhone, changePage }) {
           damping: 15,
         }}
       >
-         <span
-    onClick={() => changePage("first")}
-    className="absolute top-8 left-8 text-white/60 hover:text-gold cursor-pointer flex items-center gap-1 text-sm transition-colors z-10"
-  >
-    
-    بازگشت
-    <ChevronLeft size={16} />
-  </span>
+        <span
+          onClick={() => changePage("first")}
+          className="absolute top-6 sm:top-8 left-6 sm:left-8 text-white/60 hover:text-gold cursor-pointer flex items-center gap-1 text-xs sm:text-sm transition-colors z-10"
+        >
+          بازگشت
+          <ChevronLeft size={14} className="sm:hidden" />
+          <ChevronLeft size={16} className="hidden sm:block" />
+        </span>
         {/* آیکون */}
         <motion.div
-          className="w-16 h-16 !my-3 rounded-full bg-gold/10 border-[1.5px] border-gold/35 flex items-center justify-center animate-glow"
+          className="w-12 h-12 sm:w-16 sm:h-16 !my-0 sm:!my-1 rounded-full bg-gold/10 border-[1.5px] border-gold/35 flex items-center justify-center animate-glow"
           initial={{ scale: 0, rotate: -180 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
-        > <UserKeyIcon size={28} color="#ffc107" />
-         </motion.div>   
-                
+        >
+          <UserKeyIcon size={20} className="sm:hidden" color="#ffc107" />
+          <UserKeyIcon size={28} className="hidden sm:block" color="#ffc107" />
+        </motion.div>
 
         {/* عنوان */}
         <motion.div
@@ -124,10 +135,9 @@ export default function ForgetPass({ changePhone, changePage }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.45 }}
         >
-            
           <Text
             strong
-            className="!text-2xl !mb-1 !font-vazir-bold !text-white"
+            className="!text-lg sm:!text-2xl !mb-1 !font-vazir-bold !text-white"
           >
             فراموشی رمز کاربری
           </Text>
@@ -146,107 +156,110 @@ export default function ForgetPass({ changePhone, changePage }) {
             transition={{ delay: 0.6 }}
           >
             {/* شماره تلفن */}
-            <Form.Item name="phoneNumber" initialValue={toPersianNumber(fields.phoneNumber)} className="!mb-1">
+            <div className="!mb-1">
               <Input
-                className="!px-4"
+                className="!px-3 sm:!px-4 !text-xs sm:!text-base"
                 size="large"
                 placeholder="لطفا شماره همراه خود را وارد کنید"
                 value={toPersianNumber(fields.phoneNumber)}
                 onChange={handlePhoneChange}
-                prefix={
-                  <Phone size={18} className="text-gold !ml-1.5 !mb-1.5" />
-                }
                 maxLength={11}
+                prefix={
+                  <>
+                    <Phone
+                      size={16}
+                      className="sm:hidden text-gold !ml-1.5 !mb-1.5"
+                    />
+                    <Phone
+                      size={18}
+                      className="hidden sm:block text-gold !ml-1.5 !mb-1.5"
+                    />
+                  </>
+                }
               />
-            </Form.Item>
+            </div>
 
             {/* کد + ارسال مجدد */}
             <div className="flex items-center gap-2 !mb-1">
               <Button
                 disabled={resendTime > 0}
                 onClick={resendCode}
-                className="!h-[40px] !mb-0.5 !rounded-lg !font-vazir-bold !bg-white/5 !text-xs !text-white !border !border-white/15 hover:!border-gold hover:!text-gold"
+                className="!h-[36px] sm:!h-[40px] !mb-0.5 !rounded-lg !font-vazir-bold !bg-white/5 !text-[10px] sm:!text-xs !text-white !border !border-white/15 hover:!border-gold hover:!text-gold"
               >
                 {resendTime > 0 ? formatTime() : "ارسال مجدد کد"}
               </Button>
 
-              <Form.Item
-                name="code"
-                rules={[{ required: true, message: "کد نمی‌تواند خالی باشد!" }]}
-                className="!mb-0 flex-1"
-              >
+              <div className="flex-1">
                 <Input
                   autoComplete="one-time-code"
-                  className="!px-4"
+                  className="!px-3 sm:!px-4 !text-xs sm:!text-base"
                   size="large"
                   placeholder="لطفا کد ارسالی را وارد کنید"
                   value={toPersianNumber(code)}
                   onChange={handleCodeChange}
                   prefix={
-                    <MessageCircleMoreIcon
-                      size={18}
-                      className="text-gold !ml-1.5 !mb-1.5"
-                    />
+                    <>
+                      <MessageCircleMoreIcon
+                        size={16}
+                        className="sm:hidden text-gold !ml-1.5 !mb-1.5"
+                      />
+                      <MessageCircleMoreIcon
+                        size={18}
+                        className="hidden sm:block text-gold !ml-1.5 !mb-1.5"
+                      />
+                    </>
                   }
                 />
-              </Form.Item>
+              </div>
             </div>
 
             {/* رمز جدید */}
-            <Form.Item
-              name="newPassword"
-              rules={[{ required: true, message: "رمز نمی‌تواند خالی باشد!" }]}
-              className="!mb-1"
-            >
+            <div className="!mb-1">
               <Input.Password
-              autoComplete="one-time-code"
-                className="!px-4"
+                autoComplete="one-time-code"
+                className="!px-3 sm:!px-4 !text-xs sm:!text-base"
                 size="large"
                 placeholder="لطفا رمز جدید را وارد کنید"
                 value={fields.newPassword}
-                onChange={handleChange}
+                onChange={handleNewPasswordChange}
                 prefix={
-                  <KeyRoundIcon
-                    size={18}
-                    className="text-gold !ml-1.5 !mb-1.5"
-                  />
+                  <>
+                    <KeyRoundIcon
+                      size={16}
+                      className="sm:hidden text-gold !ml-1.5 !mb-1.5"
+                    />
+                    <KeyRoundIcon
+                      size={18}
+                      className="hidden sm:block text-gold !ml-1.5 !mb-1.5"
+                    />
+                  </>
                 }
               />
-            </Form.Item>
+            </div>
 
             {/* تکرار رمز جدید */}
-            <Form.Item
-              name="confirmPassword"
-              rules={[
-                { required: true, message: "تکرار رمز نمی‌تواند خالی باشد!" },
-                ({ getFieldValue }) => ({
-                  validator(_, value) {
-                    if (!value || getFieldValue("newPassword") === value) {
-                      return Promise.resolve();
-                    }
-                    return Promise.reject(
-                      new Error("رمز و تکرار رمز مطابقت ندارند!")
-                    );
-                  },
-                }),
-              ]}
-              className="!mb-8"
-            >
+            <div className="!mb-6 sm:!mb-8">
               <Input.Password
-              autoComplete="one-time-code"
-                className="!px-4"
+                autoComplete="one-time-code"
+                className="!px-3 sm:!px-4 !text-xs sm:!text-base"
                 size="large"
                 placeholder="لطفا رمز جدید را مجدد وارد کنید"
                 value={fields.confirmPassword}
-                onChange={handleChange}
+                onChange={handleConfirmPasswordChange}
                 prefix={
-                  <KeyRoundIcon
-                    size={18}
-                    className="text-gold !ml-1.5 !mb-1.5"
-                  />
+                  <>
+                    <KeyRoundIcon
+                      size={16}
+                      className="sm:hidden text-gold !ml-1.5 !mb-1.5"
+                    />
+                    <KeyRoundIcon
+                      size={18}
+                      className="hidden sm:block text-gold !ml-1.5 !mb-1.5"
+                    />
+                  </>
                 }
               />
-            </Form.Item>
+            </div>
           </motion.div>
 
           {/* دکمه */}
@@ -270,7 +283,7 @@ export default function ForgetPass({ changePhone, changePage }) {
                 htmlType="submit"
                 loading={loading}
                 icon={loading ? <SyncOutlined spin /> : null}
-                className="!h-[52px] !rounded-2xl w-full !font-vazir-bold !text-base"
+                className="!h-[46px] sm:!h-[52px] !rounded-xl sm:!rounded-2xl w-full !font-vazir-bold !text-sm sm:!text-base"
                 block
               >
                 {loading ? "در حال بررسی..." : "تغییر رمز عبور"}

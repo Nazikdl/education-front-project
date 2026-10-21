@@ -12,7 +12,7 @@ export default function Auth() {
       {pageType == "first" ? (
         <FirstStep phoneNumber={phoneNumber} changePage={setPageType} changePhone={setPhoneNumber} />
       ) : pageType == "forget" ? (
-        <ForgetPass changePage={setPageType} />
+        <ForgetPass changePage={setPageType} changePhone={setPhoneNumber} />
       ) : pageType == "password" ? (
         <LoginPass phoneNumber={phoneNumber} changePage={setPageType} />
       ) : (
