@@ -396,9 +396,9 @@ export default function Navbar() {
           {/* ==================== USER BUTTONS (DESKTOP) ==================== */}
           <div className="hidden lg:flex items-center">
             {token ? (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1">
                 <Button
-                  className="ant-btn-primary !h-10 !rounded-xl !flex !items-center !gap-1.5 !font-vazir !mx-0"
+                  className="ant-btn-primary !h-8 !rounded-sm !flex !items-center !gap-1.5 !font-vazir !mx-0"
                   onClick={condition}
                 >
                   <UserRound size={15} />
@@ -411,7 +411,7 @@ export default function Navbar() {
                   trigger={["click"]}
                 >
                   <Button
-                    className="ant-btn-primary !h-10 !w-10 !rounded-xl !flex !items-center !justify-center !p-0 !mx-0"
+                    className="ant-btn-primary !h-8 !w-10 !rounded-sm !flex !items-center !justify-center !p-0 !mx-0"
                   >
                     <ChevronDown size={16} />
                   </Button>
@@ -419,7 +419,7 @@ export default function Navbar() {
               </div>
             ) : (
               <Button
-                className="ant-btn-primary !h-10 !rounded-xl !flex !items-center !gap-1.5 !font-vazir !mx-0"
+                className="ant-btn-primary !h-8 !rounded-sm !flex !items-center !gap-1.5 !font-vazir !mx-0"
                 onClick={() => navigate("/auth")}
               >
                 <UserRound size={15} />
