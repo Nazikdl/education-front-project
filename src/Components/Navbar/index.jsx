@@ -306,7 +306,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="flex !px-[5%] items-center h-20 justify-between bg-transparent sticky top-0 z-40 backdrop-blur-sm">
+      <nav className="flex !px-[5%] items-center h-16 justify-between bg-transparent sticky top-0 z-40 backdrop-blur-sm">
         {/* ==================== LOGO ==================== */}
         <div className="flex items-center justify-center gap-5 ">
   <motion.button
@@ -419,7 +419,7 @@ export default function Navbar() {
               </div>
             ) : (
               <Button
-                className="ant-btn-primary !h-8 !rounded-sm !flex !items-center !gap-1.5 !font-vazir !mx-0"
+                className="ant-btn-primary !w-20 !h-8 !rounded-sm !flex !items-center !gap-1.5 !font-vazir !mx-0"
                 onClick={() => navigate("/auth")}
               >
                 <UserRound size={15} />

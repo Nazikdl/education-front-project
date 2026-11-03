@@ -181,17 +181,17 @@ a:hover {
    SCROLLBAR
    ============================================================ */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 4px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-dark);
+  background: var(--bg-gold);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, var(--purple), var(--pink));
-  border-radius: 4px;
+  background: var(--gold);
+  border-radius: 2px;
 }
 
 ::selection {
@@ -276,10 +276,13 @@ a:hover {
   color: var(--gold);
   border: 1.5px solid var(--gold);
   box-shadow: none;
+  font-family: var(--font-vazir);
 }
 
 .gold-btn-outline:hover {
-  background: rgba(255, 193, 7, 0.1);
+  background:#5c5c5c2d !important ;
+  color:white !important;
+  border-color:white !important
 }
 
 /* ============================================================
