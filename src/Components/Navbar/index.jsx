@@ -20,12 +20,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../../Store/Slices/AuthSlice";
 import fetchData from "../../Utils/FetchData";
+import { resetCart } from "./../../Store/Slices/CartSlice";
 
 // ==================== NAV ITEMS ====================
 const navItems = [
   { title: "خانه", icon: House, path: "/" },
-  { title: "دسته بندی ها", icon: Shapes, path: "/categories", dropdownKey: "categories" },
-  { title: "دوره ها", icon: LibraryBig, path: "/courses", dropdownKey: "courses" },
+  {
+    title: "دسته بندی ها",
+    icon: Shapes,
+    path: "/categories",
+    dropdownKey: "categories",
+  },
+  {
+    title: "دوره ها",
+    icon: LibraryBig,
+    path: "/courses",
+    dropdownKey: "courses",
+  },
   { title: "آموزش رایگان", icon: BriefcaseBusiness, path: "/free-course" },
   { title: "اساتید برتر", icon: GraduationCap, path: "/instructors" },
   { title: "ارتباط با ما", icon: Handshake, path: "/about" },
@@ -120,7 +131,9 @@ const MobileMenuContent = ({
         {navItems.map((item, i) => {
           const Icon = item.icon;
           const isOpen = openDropdown === item.title;
-          const subItems = item.dropdownKey ? dropdownData[item.dropdownKey] : [];
+          const subItems = item.dropdownKey
+            ? dropdownData[item.dropdownKey]
+            : [];
           const hasSubmenu = item.dropdownKey && subItems.length > 0;
 
           return (
@@ -189,7 +202,9 @@ const MobileMenuContent = ({
             <button
               onClick={() =>
                 onNavigate(
-                  user?.role === "instructor" ? "/instructor-profile" : "/profile"
+                  user?.role === "instructor"
+                    ? "/instructor-profile"
+                    : "/profile",
                 )
               }
               className="w-full !py-3 rounded-xl bg-gradient-to-r from-gold to-gold-light text-[#0b1457] font-vazir-bold text-sm flex items-center justify-center gap-2"
@@ -277,11 +292,12 @@ export default function Navbar() {
     user?.role === "student"
       ? () => navigate("/profile")
       : user?.role === "instructor"
-      ? () => navigate("/instructor-profile")
-      : () => navigate("/auth");
+        ? () => navigate("/instructor-profile")
+        : () => navigate("/auth");
 
   const handleLogout = () => {
     dispatch(logout());
+    dispatch(resetCart()); // ← اضافه کن؛ سبد فرانت خالی می‌شه
     setMobileOpen(false);
     navigate("/");
   };
@@ -309,28 +325,27 @@ export default function Navbar() {
       <nav className="flex !px-[5%] items-center h-16 justify-between bg-transparent sticky top-0 z-40 backdrop-blur-sm">
         {/* ==================== LOGO ==================== */}
         <div className="flex items-center justify-center gap-5 ">
-  <motion.button
+          <motion.button
             onClick={() => setMobileOpen(true)}
             className="lg:hidden !p-2 rounded-xl text-white/80 hover:text-gold hover:bg-white/5 transition-colors"
             whileTap={{ scale: 0.9 }}
           >
             <Menu size={22} />
           </motion.button>
-        <motion.div
-          onClick={() => navigate("/")}
-          className="cursor-pointer"
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <img
-            className="h-18 md:h-20 !mt-1"
-            src="./../../Public/assets/images/logo.png"
-            alt="logo"
-          />
-        </motion.div>
+          <motion.div
+            onClick={() => navigate("/")}
+            className="cursor-pointer"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <img
+              className="h-18 md:h-20 !mt-1"
+              src="./../../Public/assets/images/logo.png"
+              alt="logo"
+            />
+          </motion.div>
         </div>
-      
 
         {/* ==================== DESKTOP MENU ==================== */}
         <div className="hidden lg:block">
@@ -344,7 +359,9 @@ export default function Navbar() {
                 <li
                   key={i}
                   className="relative"
-                  onMouseEnter={() => item.dropdownKey && setHoveredItem(item.title)}
+                  onMouseEnter={() =>
+                    item.dropdownKey && setHoveredItem(item.title)
+                  }
                   onMouseLeave={() => setHoveredItem(null)}
                 >
                   <Link
@@ -410,9 +427,7 @@ export default function Navbar() {
                   placement="bottomLeft"
                   trigger={["click"]}
                 >
-                  <Button
-                    className="ant-btn-primary !h-8 !w-10 !rounded-sm !flex !items-center !justify-center !p-0 !mx-0"
-                  >
+                  <Button className="ant-btn-primary !h-8 !w-10 !rounded-sm !flex !items-center !justify-center !p-0 !mx-0">
                     <ChevronDown size={16} />
                   </Button>
                 </Dropdown>

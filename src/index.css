@@ -79,7 +79,7 @@
   --bg-secondary: #0e1a6b;
   --bg-dark: #060d3a;
 
-  --glass-gradient: rgba(92, 46, 119, 0.623);
+  --glass-gradient: rgba(92, 46, 119, 0.267);
 
   --gold: #ffc107;
   --gold-light: #ffd54f;
@@ -268,7 +268,9 @@ a:hover {
 
 .gold-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 30px rgba(255, 193, 7, 0.5);
+  box-shadow: 0 6px 30px rgba(255, 193, 7, 0.178);
+  color:var(--bg-dark) !important;
+  border:var(--bg-secondary)!important;
 }
 
 .gold-btn-outline {

@@ -139,7 +139,7 @@ const CURVE_PATH =
 
 export default function Banner() {
   const [courseCount, setCourseCount] = useState(0);
-  const [users, setUsers] = useState([]);
+ const [counts, setCounts] = useState({ students: 0, instructors: 0 });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -151,26 +151,19 @@ export default function Banner() {
     })();
   }, []);
 
-  useEffect(() => {
-    (async () => {
-      const result = await fetchData("Users", {
-        method: "GET",
-        headers: { "content-type": "application/json" },
-      });
-      if (result.success) {
-        setUsers(Array.isArray(result?.data) ? result.data : []);
-      }
-    })();
-  }, []);
 
-  const studentCount = users.filter((u) => u?.role === "student").length;
-  const instructorCount = users.filter((u) => u?.role === "instructor").length;
+useEffect(() => {
+  (async () => {
+    const res = await fetchData("users/stats");
+    if (res.success) setCounts(res.data);
+  })();
+}, []);
 
   const stats = [
-    { value: studentCount, label: "دانشجو" },
-    { value: courseCount, label: "دوره آموزشی" },
-    { value: instructorCount, label: "استاد" },
-  ];
+  { value: counts?.students, label: "دانشجو" },
+  { value: courseCount, label: "دوره آموزشی" },
+  { value: counts?.instructors, label: "استاد" },
+];
 
   return (
     <section className="flex flex-col w-full relative overflow-hidden">
